@@ -43,6 +43,9 @@ sequelize.sync({ force: false}).then(() => {
     
 });
 console.log("why");
+console.log("why");
+console.log("why");
+console.log("why");
 
 
 const insan = sequelize.define('insan',{

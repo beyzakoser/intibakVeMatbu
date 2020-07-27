@@ -18,6 +18,7 @@ const insans = require("./insans.js")(sequelize, Sequelize);
 sequelize.sync({ force: false}).then(() => {
   console.log("basarili bir şekilde bağlandı");
   console.log("beyza");
+  console.log("beyza");
 /*sequelize.models.insans.create({
   ad: "omer" ,
   soyad:"yildiz",
@@ -41,6 +42,7 @@ sequelize.sync({ force: false}).then(() => {
   */
     
 });
+console.log("why");
 
 
 const insan = sequelize.define('insan',{

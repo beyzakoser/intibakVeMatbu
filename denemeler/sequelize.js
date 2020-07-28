@@ -17,17 +17,18 @@ const insans = require("./insans.js")(sequelize, Sequelize);
 
 sequelize.sync({ force: false}).then(() => {
   console.log("basarili bir şekilde bağlandı");
-/*sequelize.models.insans.create({
+sequelize.models.insans.create({
   ad: "omer" ,
-  soyad:"yildiz",
-  tc:47509
+  soyad:"ak",
+  tc:55544
  });
 
   //yeni veri ekleme
+  /*
    insan.create({
-     ad: "aaf" ,
-     soyad:"aas",
-     tc:45110
+     ad: "aafhj" ,
+     soyad:"aashyg",
+     tc:4555
     });
     //listeleme
    
@@ -41,7 +42,7 @@ sequelize.sync({ force: false}).then(() => {
     
 });
 
-
+/*
 const insan = sequelize.define('insan',{
     ad : Sequelize.STRING,
     soyad: Sequelize.STRING,
@@ -63,13 +64,13 @@ insan.findAll({
   console.log("findAll metodu : ")
   console.log(rows)
 
-});/*
+});
 insan.findByPk(1,{raw:true}).then(function(rows){
   console.log("findByPk metodu")
   console.log(rows);
 
 });*/
-
+/*
 insan.destroy({
   where :{
     id:41
@@ -81,7 +82,7 @@ insan.destroy({
   console.log("silindi")
   }
 })
-/*
+
 
 app.get('/', function (req, res) {
   insan.findAll({

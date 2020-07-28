@@ -21,6 +21,6 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'Ders_id'
 		}
 	}, {
-		tableName: 'ogretimelemaniders'
+		tableName: 'ogretimelemaniders',timestamps: false
 	});
 };

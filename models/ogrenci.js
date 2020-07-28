@@ -61,6 +61,6 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'giris_yil'
 		}
 	}, {
-		tableName: 'ogrenci'
+		tableName: 'ogrenci',timestamps: false
 	});
 };

@@ -29,6 +29,6 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'Bolum_id'
 		}
 	}, {
-		tableName: 'admin'
+		tableName: 'admin',timestamps: false
 	});
 };

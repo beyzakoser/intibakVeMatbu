@@ -1,7 +1,7 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('fsmvuders', {
+	const fsmvuders= sequelize.define('fsmvuders', {
 		id: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -39,6 +39,11 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true,
 			field: 'lab_saat'
 		},
+		kredi: {
+			type: DataTypes.INTEGER,
+			allowNull: true,
+			field: 'kredi'
+		},
 		akts: {
 			type: DataTypes.INTEGER,
 			allowNull: true,
@@ -51,6 +56,7 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'online'
 		}
 	}, {
-		tableName: 'fsmvuders'
+		tableName: 'fsmvuders',timestamps: false
 	});
+	return fsmvuders;
 };

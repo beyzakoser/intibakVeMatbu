@@ -21,6 +21,6 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'Bolum_id'
 		}
 	}, {
-		tableName: 'bolumdersleri'
+		tableName: 'bolumdersleri',timestamps: false
 	});
 };

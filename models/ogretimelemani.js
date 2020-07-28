@@ -25,6 +25,6 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'bolum'
 		}
 	}, {
-		tableName: 'ogretimelemani'
+		tableName: 'ogretimelemani',timestamps: false
 	});
 };

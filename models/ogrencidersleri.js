@@ -53,6 +53,6 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'FsmvuDers_id'
 		}
 	}, {
-		tableName: 'ogrencidersleri'
+		tableName: 'ogrencidersleri',timestamps: false
 	});
 };

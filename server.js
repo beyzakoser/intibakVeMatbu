@@ -72,6 +72,12 @@ app.get('/dersler', (req, res) => {
     
 
 });
+app.post('/basvuru', (req, res) => {
+    const { ad, soyad, fakulte, bolum, mail,universite,girisYil, basvuruTur} = req.body;
+    console.log(ad,soyad,fakulte, bolum, mail,universite,girisYil, basvuruTur);
+  
+
+});
 /*
 app.get('/dersler', function (req, res) {
     sequelize.models.fsmvuders.findAll({

@@ -54,11 +54,10 @@ app.get('/dersler', (req, res) => {
         attributes: [
             "dersKodu",
             "dersAd",
-            "kontenjan",
+            "akts",
             "teoriSaat",
             "labSaat",
-            "kredi",
-            "akts",
+            "kontenjan",
             "online",
           ],
         raw: true
@@ -66,8 +65,6 @@ app.get('/dersler', (req, res) => {
     .then(
         c => {
         res.send(c)
-        console.log(c);
-
     }).catch(err => console.log("Error : ", err));
     
 
@@ -79,33 +76,7 @@ app.post('/basvuru', (req, res) => {
 
 });
 /*
-app.get('/dersler', function (req, res) {
-    sequelize.models.fsmvuders.findAll({
-        where: {
-            grupBilgisi: "BLM AS VII"
-        },
-        raw: true
-    }).then(function (rows) {
-        //console.log(rows)
-        res.send(rows)
 
-
-    });
-  });
-
-  app.get('/ogretimuyleri', function (req, res) {
-    sequelize.models.fsmvuders.findAll({
-        where: {
-            grupBilgisi: "BLM AS VII"
-        },
-        raw: true
-    }).then(function (rows) {
-        //console.log(rows)
-        res.send([{"maya":"mnsmn"}])
-
-
-    });
-  });
  //önce bu path e geliyor oradan veri tabanına kaydediyorum
   app.post("/dersEkle", (req, res) => {
     console.log(
@@ -163,15 +134,7 @@ sequelize.sync({ force: false }).then(() => {
             console.log("silindi")
         }
     })
-    sequelize.models.fsmvuders.findAll({
-        where: {
-            grupBilgisi: "BLM AS VII"
-        },
-        raw: true
-    }).then(function (rows) {
-        console.log(rows)
 
-    });
 
 
 });*/

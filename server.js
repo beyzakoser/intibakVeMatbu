@@ -11,25 +11,9 @@ app.use((req, res, next) => {
 });
 require('./db.js');
 
-app.get('/admin', (req, res) => {
-    admin.findAll({
-        attributes: [
-            "id",
-            "kullaniciAdi",
-            "sifre",
-          ],
-        raw: true
-    }).then(c => {
-        res.json(c)
-        console.log(c.sifre);
-
-    }).catch(err => console.log("Error : ", err));
-
-});
 app.post('/giris', (req, res) => {
+    //signIn sayfasından gelecek parametrelere göre bu kısım değişecek
     const { mail, sifre } = req.body;
-    //var deger=_.pick(req.body,"mail"); //obje tipinde geliyor..
-    console.log(mail);
     admin.findAll({
         where: {
             kullaniciAdi: mail,
@@ -52,6 +36,7 @@ app.get('/dersler', (req, res) => {
             ],
         //hangi özelliklerin gitmesini istiyorsam;
         attributes: [
+            "id",
             "dersKodu",
             "dersAd",
             "akts",
@@ -75,6 +60,31 @@ app.post('/basvuru', (req, res) => {
   
 
 });
+app.post('/dersDuzenle', (req, res) => {
+    //client tarafından değişen verilerin hepsi tek bir objede geliyor.
+    const { inserts} = req.body[0];
+    const { updates} = req.body[1];
+    const { deletes} = req.body[2];
+    //console.log(insert);
+    console.log(updates);
+
+//veritabanında bir değişiklik direkt yapılıyor ama birden çok veri geldiğinde nasıl olacak ona bak
+    // fsmvuders.update({
+    //     dersAd:"staj2",
+    //     },{
+    //     where:{
+    //         id:84
+    //     }
+    // }).then( c => {
+    //     console.log(c)}).catch(err => console.log("Error : ", err));
+  
+});
+
+app.listen(3004, () => {
+    console.log("server is listening");
+});
+
+
 /*
 
  //önce bu path e geliyor oradan veri tabanına kaydediyorum
@@ -106,9 +116,6 @@ app.post('/basvuru', (req, res) => {
         console.log("error ", err);
       });
   });*/
-app.listen(3004, () => {
-    console.log("server is listening");
-});
 /*
 sequelize.sync({ force: false }).then(() => {
     console.log("basarili bir şekilde bağlandı");

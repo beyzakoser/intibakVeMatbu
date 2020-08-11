@@ -39,10 +39,10 @@ var c = lodash.differenceWith(a, b, function (o1, o2) {
 });
 var deleted = { delete: c } //silinenler 
 obje.push(deleted)
-console.log(obje);
-console.log(obje[0]);//insert listesi
-console.log(obje[1]);//update listesi
-console.log(obje[2]);//delete listesi
+// console.log(obje);
+// console.log(obje[0]);//insert listesi
+// console.log(obje[1]);//update listesi
+// console.log(obje[2]);//delete listesi
 
 
 

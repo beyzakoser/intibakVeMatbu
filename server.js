@@ -22,18 +22,18 @@ app.post('/giris', (req, res) => {
         raw: true
 
     }).then(
-         c => {
-         console.log(c.length)
-         if (c.length != 0) { res.send("success") }
+        c => {
+            console.log(c.length)
+            if (c.length != 0) { res.send("success") }
 
-         });
+        });
 });
 app.get('/dersler', (req, res) => {
     fsmvuders.findAll({
         //dersAdına göre alfabetik sıra ile gönderdim.
         order: [
             ['dersAd', 'ASC'],
-            ],
+        ],
         //hangi özelliklerin gitmesini istiyorsam;
         attributes: [
             "id",
@@ -44,40 +44,65 @@ app.get('/dersler', (req, res) => {
             "labSaat",
             "kontenjan",
             "online",
-          ],
+        ],
         raw: true
     })
-    .then(
-        c => {
-        res.send(c)
-    }).catch(err => console.log("Error : ", err));
-    
+        .then(
+            c => {
+                res.send(c)
+            }).catch(err => console.log("Error : ", err));
+
 
 });
 app.post('/basvuru', (req, res) => {
-    const { ad, soyad, fakulte, bolum, mail,universite,girisYil, basvuruTur} = req.body;
-    console.log(ad,soyad,fakulte, bolum, mail,universite,girisYil, basvuruTur);
-  
+    const { ad, soyad, fakulte, bolum, mail, universite, girisYil, basvuruTur } = req.body;
+    console.log(ad, soyad, fakulte, bolum, mail, universite, girisYil, basvuruTur);
+
 
 });
 app.post('/dersDuzenle', (req, res) => {
     //client tarafından değişen verilerin hepsi tek bir objede geliyor.
-    const { inserts} = req.body[0];
-    const { updates} = req.body[1];
-    const { deletes} = req.body[2];
-    //console.log(insert);
-    console.log(updates);
+    const { inserts } = req.body[0];
+    const { updates } = req.body[1];
+    const { deletes } = req.body[2];
 
-//veritabanında bir değişiklik direkt yapılıyor ama birden çok veri geldiğinde nasıl olacak ona bak
-    // fsmvuders.update({
-    //     dersAd:"staj2",
-    //     },{
-    //     where:{
-    //         id:84
-    //     }
-    // }).then( c => {
-    //     console.log(c)}).catch(err => console.log("Error : ", err));
-  
+    // update kısmı 
+    updates.forEach(eleman => {
+        fsmvuders.update({
+            dersKodu: eleman.dersKodu,
+            dersAd: eleman.dersAd,
+            akts: eleman.akts,
+            teoriSaat: eleman.teoriSaat,
+            labSaat:eleman.labSaat,
+            kontenjan: eleman.kontenjan,
+            online: eleman.online
+        }, {
+            where: {
+                id: eleman.id
+            }
+        }).catch(err => console.log("Error : ", err));
+    });
+    //insert
+    inserts.forEach(eleman => {
+        fsmvuders.create({
+            dersKodu: eleman.dersKodu,
+            dersAd: eleman.dersAd,
+            akts: eleman.akts,
+            teoriSaat: eleman.teoriSaat,
+            labSaat:eleman.labSaat,
+            kontenjan: eleman.kontenjan,
+            online: eleman.online
+        }).catch(err => console.log("Error : ", err));
+    });
+    //delete
+    deletes.forEach(eleman => {
+        fsmvuders.destroy({
+            where: {
+                id: eleman.id
+            }
+        }).catch(err => console.log("Error : ", err));
+    });
+
 });
 
 app.listen(3004, () => {

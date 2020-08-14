@@ -46,7 +46,8 @@ app.get('/dersler', (req, res) => {
             'labSaat',
             "kontenjan",
             'teoriOnline',
-            'labOnline'
+            'labOnline',
+            'donem'
         ],
         raw: true
     })
@@ -66,10 +67,9 @@ app.post('/basvuru', (req, res) => {
 });
 app.post('/dersDuzenle', (req, res) => {
     //client tarafından değişen verilerin hepsi tek bir objede geliyor.
-    const { inserts } = req.body[0];
-    const { updates } = req.body[1];
-    const { deletes } = req.body[2];
-
+    const  {inserts}  = req.body[0];
+    const  {updates}  = req.body[1];
+    const  {deletes}  = req.body[2];
     // update kısmı 
     updates.forEach(eleman => {
         fsmvuders.update({
@@ -118,64 +118,4 @@ app.listen(3004, () => {
 });
 
 
-/*
-
- //önce bu path e geliyor oradan veri tabanına kaydediyorum
-  app.post("/dersEkle", (req, res) => {
-    console.log(
-      "req.body***********************************************",
-      req.body
-    );
-    Event_classroom.create(req.body.evtClassroom)
-      .then(evtClassroom => {
-        console.log(evtClassroom.dataValues);
-        res.send(evtClassroom.dataValues);
-      })
-      .catch(err => {
-        console.log("error ", err);
-      });
-  });
-    app.post("/ogretim", (req, res) => {
-    console.log(
-      "req.body***********************************************",
-      req.body
-    );
-    Event_classroom.create(req.body.evtClassroom)
-      .then(evtClassroom => {
-        console.log(evtClassroom.dataValues);
-        res.send(evtClassroom.dataValues);
-      })
-      .catch(err => {
-        console.log("error ", err);
-      });
-  });*/
-/*
-sequelize.sync({ force: false }).then(() => {
-    console.log("basarili bir şekilde bağlandı");
-    /* sequelize.models.fsmvuders.create({
-        dersKodu: "BLM123",
-        dersAd: "Staj2",
-        grupBilgisi:"AZ",
-        kontenjan:10,
-        teoriSaat:2,
-        labSaat:0,
-        akts:3,
-        kredi:2,
-        online:"evet"
-    });
-    sequelize.models.fsmvuders.destroy({
-        where: {
-            dersAd: "Staj2"
-        }
-    }).then(function (deleted) {
-        if (deleted === 0) {
-            console.log("Böyle bir veri bulunmamaktadır.")
-        } else {
-            console.log("silindi")
-        }
-    })
-
-
-
-});*/
 

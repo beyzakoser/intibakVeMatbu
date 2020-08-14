@@ -1,9 +1,9 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('ogrencidersleri', {
+	return sequelize.define('ogrenciDersleri', {
 		id: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true,
@@ -15,17 +15,17 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'ders_kodu'
 		},
 		dersAdi: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: true,
 			field: 'ders_adi'
 		},
 		kredi: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: true,
 			field: 'kredi'
 		},
 		akts: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: true,
 			field: 'akts'
 		},
@@ -35,24 +35,24 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'basari_notu'
 		},
 		ogrenciId: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			references: {
-				model: 'ogrenci',
+				model: 'Ogrenci',
 				key: 'id'
 			},
 			field: 'Ogrenci_id'
 		},
 		fsmvuDersId: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			references: {
-				model: 'fsmvuders',
+				model: 'FsmvuDers',
 				key: 'id'
 			},
 			field: 'FsmvuDers_id'
 		}
 	}, {
-		tableName: 'ogrencidersleri',timestamps: false
+		tableName: 'OgrenciDersleri',timestamps: false
 	});
 };

@@ -14,6 +14,7 @@ require('./db.js');
 app.post('/giris', (req, res) => {
     //signIn sayfasından gelecek parametrelere göre bu kısım değişecek
     const { mail, sifre } = req.body;
+    console.log(req.body);
     admin.findAll({
         where: {
             kullaniciAdi: mail,
@@ -39,11 +40,13 @@ app.get('/dersler', (req, res) => {
             "id",
             "dersKodu",
             "dersAd",
+            'kredi',
             "akts",
-            "teoriSaat",
-            "labSaat",
+            'teoriSaat',
+            'labSaat',
             "kontenjan",
-            "online",
+            'teoriOnline',
+            'labOnline'
         ],
         raw: true
     })
@@ -55,8 +58,9 @@ app.get('/dersler', (req, res) => {
 
 });
 app.post('/basvuru', (req, res) => {
-    const { ad, soyad, fakulte, bolum, mail, universite, girisYil, basvuruTur } = req.body;
-    console.log(ad, soyad, fakulte, bolum, mail, universite, girisYil, basvuruTur);
+    //const { ad, soyad, fakulte, bolum, mail, universite, girisYil, basvuruTur } = req.body;
+    //console.log(ad, soyad, fakulte, bolum, mail, universite, girisYil, basvuruTur);
+   // console.log(req.body);
 
 
 });
@@ -71,11 +75,13 @@ app.post('/dersDuzenle', (req, res) => {
         fsmvuders.update({
             dersKodu: eleman.dersKodu,
             dersAd: eleman.dersAd,
+            kredi:eleman.kredi,
             akts: eleman.akts,
             teoriSaat: eleman.teoriSaat,
             labSaat:eleman.labSaat,
             kontenjan: eleman.kontenjan,
-            online: eleman.online
+            teoriOnline: eleman.teoriOnline,
+            labOnline:eleman.labOnline
         }, {
             where: {
                 id: eleman.id
@@ -87,11 +93,13 @@ app.post('/dersDuzenle', (req, res) => {
         fsmvuders.create({
             dersKodu: eleman.dersKodu,
             dersAd: eleman.dersAd,
+            kredi:eleman.kredi,
             akts: eleman.akts,
             teoriSaat: eleman.teoriSaat,
             labSaat:eleman.labSaat,
             kontenjan: eleman.kontenjan,
-            online: eleman.online
+            teoriOnline: eleman.teoriOnline,
+            labOnline:eleman.labOnline
         }).catch(err => console.log("Error : ", err));
     });
     //delete

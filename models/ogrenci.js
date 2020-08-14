@@ -3,7 +3,7 @@
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('ogrenci', {
 		id: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true,
@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'ogrenci_soyad'
 		},
 		ogrenciNumara: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: true,
 			field: 'ogrenci_numara'
 		},
@@ -56,11 +56,11 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'talep_tarih'
 		},
 		girisYil: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: true,
 			field: 'giris_yil'
 		}
 	}, {
-		tableName: 'ogrenci',timestamps: false
+		tableName: 'Ogrenci',timestamps: false
 	});
 };

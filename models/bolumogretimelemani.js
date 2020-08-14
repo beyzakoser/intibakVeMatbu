@@ -1,22 +1,21 @@
-/* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('bolumDersleri', {
+	return sequelize.define('bolumOgretimElemani', {
 		id: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true,
+            primaryKey: true,
+            autoIncrement: true,
 			field: 'id'
 		},
-		dersId: {
+		ogretimElemaniId: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			references: {
-				model: 'FsmvuDers',
+				model: 'OgretimElemani',
 				key: 'id'
 			},
-			field: 'Ders_id'
+			field: 'OgretimElemani_id'
 		},
 		bolumId: {
 			type: DataTypes.INTEGER(11),
@@ -28,6 +27,6 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'Bolum_id'
 		}
 	}, {
-		tableName: 'BolumDersleri',timestamps: false
+		tableName: 'BolumOgretimElemani',timestamps: false
 	});
 };

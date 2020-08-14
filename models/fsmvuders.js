@@ -1,9 +1,10 @@
 /* jshint indent: 1 */
 
+
 module.exports = function(sequelize, DataTypes) {
-	const fsmvuders= sequelize.define('fsmvuders', {
+	return sequelize.define('fsmvuDers', {
 		id: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true,
@@ -30,33 +31,42 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'kontenjan'
 		},
 		teoriSaat: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: true,
 			field: 'teori_saat'
 		},
 		labSaat: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: true,
 			field: 'lab_saat'
 		},
 		kredi: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: true,
 			field: 'kredi'
 		},
 		akts: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: true,
 			field: 'akts'
 		},
-		online: {
+		teoriOnline: {
 			type: DataTypes.STRING(15),
 			allowNull: true,
 			defaultValue: 'evet',
-			field: 'online'
+			field: 'teori_online'
+		},
+		labOnline: {
+			type: DataTypes.STRING(45),
+			allowNull: true,
+			field: 'lab_online'
+		},
+		donem: {
+			type: DataTypes.STRING(45),
+			allowNull: true,
+			field: 'donem'
 		}
 	}, {
-		tableName: 'fsmvuders',timestamps: false
+		tableName: 'FsmvuDers',timestamps: false
 	});
-	return fsmvuders;
 };

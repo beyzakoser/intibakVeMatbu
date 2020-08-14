@@ -1,26 +1,34 @@
 /* jshint indent: 1 */
 
+
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('ogretimelemaniders', {
+	return sequelize.define('ogretimElemaniDers', {
+		id: {
+			type: DataTypes.INTEGER(11),
+			allowNull: false,
+			primaryKey: true,
+			autoIncrement: true,
+			field: 'id'
+		},
 		ogretimElemaniId: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			references: {
-				model: 'ogretimelemani',
+				model: 'OgretimElemani',
 				key: 'id'
 			},
 			field: 'OgretimElemani_id'
 		},
 		dersId: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			references: {
-				model: 'fsmvuders',
+				model: 'FsmvuDers',
 				key: 'id'
 			},
 			field: 'Ders_id'
 		}
 	}, {
-		tableName: 'ogretimelemaniders',timestamps: false
+		tableName: 'OgretimElemaniDers',timestamps: false
 	});
 };

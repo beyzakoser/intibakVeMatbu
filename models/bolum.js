@@ -3,7 +3,7 @@
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('bolum', {
 		id: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true,
@@ -20,6 +20,7 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'bolum_adi'
 		}
 	}, {
-		tableName: 'bolum',timestamps: false
+		tableName: 'Bolum',timestamps: false
 	});
 };
+

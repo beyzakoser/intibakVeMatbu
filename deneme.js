@@ -15,7 +15,7 @@ var b = [
     { "name": "ahmet", "job": "teacher" },
     { "name": "ali", "job": "student" },
 ];
-
+var obje = [{}]
 //insert kısmı
 var eklenenler = []
 Object.keys(b).forEach(key => {
@@ -24,7 +24,9 @@ Object.keys(b).forEach(key => {
 
     }
 })
-var obje = [{ insert: eklenenler }] 
+console.log(obje)
+obje = [{ insert: eklenenler }] 
+console.log(obje)
 
 //update kısmı
 var serialized_Items_Prev = a.map(i => JSON.stringify(i));
@@ -32,6 +34,7 @@ var degisenler = b.filter(i => !serialized_Items_Prev.includes(JSON.stringify(i)
 var guncellenecek = degisenler.filter((e) => !(obje[0].insert).includes(e));
 var updated = { update: guncellenecek } //update olanlar eklendi.
 obje.push(updated)
+console.log(obje)
 
 //delete kısmı
 var c = lodash.differenceWith(a, b, function (o1, o2) {
@@ -39,10 +42,10 @@ var c = lodash.differenceWith(a, b, function (o1, o2) {
 });
 var deleted = { delete: c } //silinenler 
 obje.push(deleted)
-// console.log(obje);
-// console.log(obje[0]);//insert listesi
-// console.log(obje[1]);//update listesi
-// console.log(obje[2]);//delete listesi
+console.log(obje);
+console.log(obje[0]);//insert listesi
+console.log(obje[1]);//update listesi
+console.log(obje[2]);//delete listesi
 
 
 

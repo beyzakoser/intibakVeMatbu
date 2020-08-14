@@ -1,30 +1,35 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('ogretimelemani', {
+	return sequelize.define('ogretimElemani', {
 		id: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true,
 			field: 'id'
 		},
-		unvanAdSoyad: {
+		unvan: {
 			type: DataTypes.STRING(45),
 			allowNull: true,
-			field: 'unvan_ad_soyad'
+			field: 'unvan'
+		},
+		ad: {
+			type: DataTypes.STRING(45),
+			allowNull: true,
+			field: 'ad'
+		},
+		soyad: {
+			type: DataTypes.STRING(45),
+			allowNull: true,
+			field: 'soyad'
 		},
 		statu: {
 			type: DataTypes.STRING(45),
-			allowNull: false,
-			field: 'statu'
-		},
-		bolum: {
-			type: DataTypes.STRING(45),
 			allowNull: true,
-			field: 'bolum'
+			field: 'statu'
 		}
 	}, {
-		tableName: 'ogretimelemani',timestamps: false
+		tableName: 'OgretimElemani',timestamps: false
 	});
 };

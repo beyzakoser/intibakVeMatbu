@@ -1,20 +1,22 @@
 const { Sequelize, Model } = require("sequelize");
-const sequelize = new Sequelize('intibakVeMatbu', 'root', '12345678', {
-    host: 'localhost',
+const sequelize = new Sequelize('yedek', 'yedekAdmin', '12345678', {
+    host: 'yedekdb.cchm5imvsmfq.us-east-2.rds.amazonaws.com',
     dialect: 'mysql',
     define: {
         timestamps: false
     }
 });//veri tabanı bilgileri girilmeli
 admin= require("./models/admin.js")(sequelize, Sequelize);
-
 bolum = require("./models/bolum.js")(sequelize, Sequelize);
 bolumdersleri = require("./models/bolumdersleri.js")(sequelize, Sequelize);
 fsmvuders = require("./models/fsmvuders.js")(sequelize, Sequelize);
 ogrenci = require("./models/ogrenci.js")(sequelize, Sequelize);
 ogrencidersleri = require("./models/ogrencidersleri.js")(sequelize, Sequelize);
 ogretimelemani = require("./models/ogretimelemani.js")(sequelize, Sequelize);
-ogretimelemaniders = require("./models/ogretimelemaniders.js")(sequelize, Sequelize);//modeller arası ilişkiler
+ogretimelemaniders = require("./models/ogretimelemaniders.js")(sequelize, Sequelize);
+bolumogretimelemani = require("./models/bolumogretimelemani.js")(sequelize, Sequelize);
+//modeller arası ilişkiler
+
 bolum.hasMany(admin, {
     as: "admin",
     foreignKey: "bolumId"
@@ -82,5 +84,25 @@ bolumdersleri.belongsTo(fsmvuders, {
     as: "fsmvuders",
     foreignKey: "fsmvudersId"
 });
+//bolumogretimelemani çoğa çok
+bolum.belongsToMany(ogretimelemani, {
+    through: "bolumogretimelemani",
+    as: "ogretimelemani",
+    foreignKey: "bolumId"
+});
+ogretimelemani.belongsToMany(bolum, {
+    through: "bolumogretimelemani",
+    as: "bolum",
+    foreignKey: "ogretimelemaniId"
+});
+bolumogretimelemani.belongsTo(ogretimelemani, {
+    as: "ogretimelemani",
+    foreignKey: "ogretimelemaniId"
+});
+bolumogretimelemani.belongsTo(bolum, {
+    as: "bolum",
+    foreignKey: "bolumId"
+});
+
 module.exports=sequelize
 global.sequelize=sequelize

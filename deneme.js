@@ -50,6 +50,8 @@ console.log(obje[2]);//delete listesi
 
 
 
+
+
 //eklenen kontrolünü backend kısmında o id veri tabanında yok ise veritabanına ekle
 //şeklinde kontrol sağlanır
 

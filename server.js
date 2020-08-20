@@ -2,7 +2,6 @@
 const express = require('express');
 const cors = require('cors');
 const _ = require('underscore');
-
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -116,37 +115,7 @@ app.post('/dersDuzenle', (req, res) => {
             teoriOnline: eleman.teoriOnline,
             labOnline: eleman.labOnline
         }).catch(err => console.log("Error : ", err));
-        // fsmvuders.findOne({
-        //     where: {
-        //         dersKodu: eleman.dersKodu ,
-        //         dersAd: eleman.dersAd,
-        //         kredi: eleman.kredi,
-        //         akts:eleman.akts,
-        //         teoriSaat: eleman.teoriSaat,
-        //         labSaat: eleman.labSaat,
-        //     }
 
-        // }).then(res => {
-        //     if (res !== null) {
-        //         console.log("boş değil");
-        //     }
-        //     else {
-        //         fsmvuders.create({
-        //             dersKodu: eleman.dersKodu,
-        //             dersAd: eleman.dersAd,
-        //             kredi: eleman.kredi,
-        //             akts: eleman.akts,
-        //             teoriSaat: eleman.teoriSaat,
-        //             labSaat: eleman.labSaat,
-        //             kontenjan: eleman.kontenjan,
-        //             teoriOnline: eleman.teoriOnline,
-        //             labOnline: eleman.labOnline
-        //         }).catch(err => console.log("Error : ", err));
-
-
-        //     }
-        // }
-        // ).catch(err => console.log("Error : ", err));
     })
 
     //delete
@@ -157,6 +126,49 @@ app.post('/dersDuzenle', (req, res) => {
             }
         }).catch(err => console.log("Error : ", err));
     });
+
+});
+app.get('/ogretimElemanlari', (req, res) => {
+    ogretimelemani.findAll({
+        //dersAdına göre alfabetik sıra ile gönderdim.
+        order: [
+            ['ad', 'ASC'],
+        ],
+        //hangi özelliklerin gitmesini istiyorsam;
+        attributes: [
+            "id",
+            "unvan",
+            "ad",
+            "soyad",
+
+        ],
+        raw: true
+    })
+        .then(
+            c => {
+                res.send(c)
+            }).catch(err => console.log("Error : ", err));
+
+
+});
+app.get('/dersAd', (req, res) => {
+    fsmvuders.findAll({
+        //dersAdına göre alfabetik sıra ile gönderdim.
+        order: [
+            ['dersAd', 'ASC'],
+        ],
+        //hangi özelliklerin gitmesini istiyorsam;
+        attributes: [
+            "id",
+            "dersAd",
+        ],
+        raw: true
+    })
+        .then(
+            c => {
+                res.send(c)
+            }).catch(err => console.log("Error : ", err));
+
 
 });
 

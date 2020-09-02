@@ -2,9 +2,9 @@
 
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('fsmvuDers', {
+	return sequelize.define('fsmvuders', {
 		id: {
-			type: DataTypes.INTEGER(11),
+			type: DataTypes.INTEGER,
 			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true,
@@ -31,22 +31,22 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'kontenjan'
 		},
 		teoriSaat: {
-			type: DataTypes.INTEGER(11),
+			type: DataTypes.INTEGER,
 			allowNull: true,
 			field: 'teori_saat'
 		},
 		labSaat: {
-			type: DataTypes.INTEGER(11),
+			type: DataTypes.INTEGER,
 			allowNull: true,
 			field: 'lab_saat'
 		},
 		kredi: {
-			type: DataTypes.INTEGER(11),
+			type: DataTypes.INTEGER,
 			allowNull: true,
 			field: 'kredi'
 		},
 		akts: {
-			type: DataTypes.INTEGER(11),
+			type: DataTypes.INTEGER,
 			allowNull: true,
 			field: 'akts'
 		},
@@ -60,13 +60,8 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(45),
 			allowNull: true,
 			field: 'lab_online'
-		},
-		donem: {
-			type: DataTypes.STRING(45),
-			allowNull: true,
-			field: 'donem'
 		}
 	}, {
-		tableName: 'FsmvuDers',timestamps: false
+		tableName: 'fsmvuders',timestamps: false
 	});
 };

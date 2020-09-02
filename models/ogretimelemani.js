@@ -1,9 +1,9 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('ogretimElemani', {
+	return sequelize.define('ogretimelemani', {
 		id: {
-			type: DataTypes.INTEGER(11),
+			type: DataTypes.INTEGER,
 			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true,
@@ -30,6 +30,6 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'statu'
 		}
 	}, {
-		tableName: 'OgretimElemani',timestamps: false
+		tableName: 'ogretimelemani',timestamps: false
 	});
 };

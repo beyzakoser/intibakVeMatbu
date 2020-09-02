@@ -1,9 +1,9 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('ogrenciDersleri', {
+	return sequelize.define('ogrencidersleri', {
 		id: {
-			type: DataTypes.INTEGER(11),
+			type: DataTypes.INTEGER,
 			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true,
@@ -15,17 +15,17 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'ders_kodu'
 		},
 		dersAdi: {
-			type: DataTypes.INTEGER(11),
+			type: DataTypes.STRING(45),
 			allowNull: true,
 			field: 'ders_adi'
 		},
 		kredi: {
-			type: DataTypes.INTEGER(11),
+			type: DataTypes.INTEGER,
 			allowNull: true,
 			field: 'kredi'
 		},
 		akts: {
-			type: DataTypes.INTEGER(11),
+			type: DataTypes.INTEGER,
 			allowNull: true,
 			field: 'akts'
 		},
@@ -35,24 +35,33 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'basari_notu'
 		},
 		ogrenciId: {
-			type: DataTypes.INTEGER(11),
+			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
-				model: 'Ogrenci',
+				model: 'ogrenci',
 				key: 'id'
 			},
+			//unique: true,
 			field: 'Ogrenci_id'
 		},
 		fsmvuDersId: {
-			type: DataTypes.INTEGER(11),
-			allowNull: false,
+			type: DataTypes.INTEGER,
+			//allowNull: false,
+			allowNull: true,
 			references: {
-				model: 'FsmvuDers',
+				model: 'fsmvuders',
 				key: 'id'
 			},
+			//unique: true,
 			field: 'FsmvuDers_id'
+		},
+		fsmvuBasariNotu: {
+			type: DataTypes.STRING(45),
+			allowNull: true,
+			unique: true,
+			field: 'fsmvu_basari_notu'
 		}
 	}, {
-		tableName: 'OgrenciDersleri',timestamps: false
+		tableName: 'ogrencidersleri',timestamps: false
 	});
 };

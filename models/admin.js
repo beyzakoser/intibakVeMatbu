@@ -3,7 +3,7 @@
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('admin', {
 		id: {
-			type: DataTypes.INTEGER(11),
+			type: DataTypes.INTEGER,
 			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true,
@@ -20,16 +20,15 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'sifre'
 		},
 		bolumId: {
-			type: DataTypes.INTEGER(11),
+			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
-				model: 'Bolum',
+				model: 'bolum',
 				key: 'id'
 			},
 			field: 'Bolum_id'
 		}
 	}, {
-		tableName: 'Admin',timestamps: false
+		tableName: 'admin',timestamps: false
 	});
 };
-

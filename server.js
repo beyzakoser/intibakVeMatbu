@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const _ = require('underscore');
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -14,7 +15,7 @@ require('./db.js');
 app.post('/giris', (req, res) => {
     //signIn sayfasından gelecek parametrelere göre bu kısım değişecek
     const { mail, sifre } = req.body;
-    console.log(req.body);
+    //console.log(req.body);
     admin.findAll({
         where: {
             kullaniciAdi: mail,
@@ -24,8 +25,9 @@ app.post('/giris', (req, res) => {
 
     }).then(
         c => {
-            console.log(c.length)
-            if (c.length != 0) { res.send("success") }
+            //console.log(c.length)
+            if (c.length != 0) { res.send("true") }
+            else { res.send("false") }
 
         });
 });
@@ -47,7 +49,6 @@ app.get('/dersler', (req, res) => {
             "kontenjan",
             'teoriOnline',
             'labOnline',
-            'donem'
         ],
         raw: true
     })
@@ -64,17 +65,43 @@ app.post('/basvuru', (req, res) => {
     const date = new Date();
     var dateTime = date.toISOString().slice(0, 10);
     ogrenci.create({
-        ogrenciAd: person.name,
-        ogrenciSoyad: person.lastname,
-        ogrenciMail: person.mail,
-        ogrenciFakulte: person.faculty,
-        ogrenciBolum: person.department,
-        universiteAdi: person.university,
-        girisYil: person.year,
-        talepTarih: dateTime
-    }).catch(err => console.log("Error : ", err));
-});
+        ogrenciAd: person.ogrenciAd,
+        ogrenciSoyad: person.ogrenciSoyad,
+        ogrenciMail: person.ogrenciMail,
+        ogrenciFakulte: person.ogrenciFakulte,
+        ogrenciBolum: person.ogrenciBolum,
+        universiteAdi: person.universiteAdi,
+        girisYil: person.girisYil,
+        talepTarih: dateTime,
+        basvuruTur: person.basvuruTur,
+        // ogrenciId:{
+        // include:[{
+        //     model:ogrencidersleri,
+        //     as:"ogrencidersleri",
+        //     //foreignKey:"ogrenciId"
+        // }]}
 
+    }).catch(err => console.log("Error : ", err));
+    
+    // ogrencidersleri.create(req.body.dersler,{
+    //    include:[{
+    //                 model:ogrenci,
+    //                 as:"ogrenci"
+    //             }]
+
+    // }).catch(err => console.log("Error : ", err));
+    // req.body.dersler.forEach(eleman => {
+    //     ogrencidersleri.create({
+    //         dersKodu:eleman.derskodu,
+    //         dersAdi:eleman.dersadi,
+    //         kredi:eleman.kredi,
+    //         akts:eleman.akts,
+    //         basariNotu:eleman.basarinotu,
+
+        
+    // }).catch(err => console.log("Error : ", err));
+    // })
+});
 
 
 app.post('/dersDuzenle', (req, res) => {
@@ -82,8 +109,6 @@ app.post('/dersDuzenle', (req, res) => {
     const { inserts } = req.body[0];
     const { updates } = req.body[1];
     const { deletes } = req.body[2];
-
-
     // update kısmı 
     updates.forEach(eleman => {
         fsmvuders.update({
@@ -140,7 +165,7 @@ app.get('/ogretimElemanlari', (req, res) => {
             "unvan",
             "ad",
             "soyad",
-
+            "statu",
         ],
         raw: true
     })
@@ -151,26 +176,48 @@ app.get('/ogretimElemanlari', (req, res) => {
 
 
 });
-app.get('/dersAd', (req, res) => {
-    fsmvuders.findAll({
-        //dersAdına göre alfabetik sıra ile gönderdim.
-        order: [
-            ['dersAd', 'ASC'],
-        ],
-        //hangi özelliklerin gitmesini istiyorsam;
+app.get('/basvurulistesi', (req, res) => {
+    ogrenci.findAll({  
         attributes: [
-            "id",
-            "dersAd",
+            "ogrenciAd",
+            "ogrenciSoyad",
+            "ogrenciMail",
+            "ogrenciFakulte",
+            "ogrenciBolum",
+            "universiteAdi",
+            "talepTarih",
+            "girisYil",
+            "basvuruTur"
         ],
         raw: true
-    })
-        .then(
+    }).then(
             c => {
                 res.send(c)
             }).catch(err => console.log("Error : ", err));
 
-
 });
+// app.get('/guzDersleri', (req, res) => {
+//     fsmvuders.findAll({
+//         //dersAdına göre alfabetik sıra ile gönderdim.
+//         order: [
+//             ['dersAd', 'ASC'],
+//         ],
+//         //hangi özelliklerin gitmesini istiyorsam;
+//         attributes: [
+//             "id",
+//             "dersAd",
+//         ],
+//         where:{
+//             donem:'Güz'
+
+//         },
+//         raw: true
+//     })
+//         .then(
+//             c => {
+//                 res.send(c)
+//             }).catch(err => console.log("Error : ", err));
+// });
 
 
 app.listen(3004, () => {

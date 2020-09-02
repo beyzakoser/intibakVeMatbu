@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'bolum_adi'
 		}
 	}, {
-		tableName: 'Bolum',timestamps: false
+		tableName: 'bolum',timestamps: false
 	});
 };
 

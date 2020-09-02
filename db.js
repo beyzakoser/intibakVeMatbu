@@ -1,22 +1,27 @@
 const { Sequelize, Model } = require("sequelize");
-const sequelize = new Sequelize('yedek', 'yedekAdmin', '12345678', {
-    host: 'yedekdb.cchm5imvsmfq.us-east-2.rds.amazonaws.com',
+const sequelize = new Sequelize('db', 'root', '12345678', {
+    host: '127.0.0.1',
     dialect: 'mysql',
     define: {
         timestamps: false
     }
 });//veri tabanı bilgileri girilmeli
+acilanders= require("./models/acilanders.js")(sequelize, Sequelize);
 admin= require("./models/admin.js")(sequelize, Sequelize);
 bolum = require("./models/bolum.js")(sequelize, Sequelize);
 bolumdersleri = require("./models/bolumdersleri.js")(sequelize, Sequelize);
+bolumogretimelemani = require("./models/bolumogretimelemani.js")(sequelize, Sequelize);
 fsmvuders = require("./models/fsmvuders.js")(sequelize, Sequelize);
+mufredat = require("./models/mufredat.js")(sequelize, Sequelize);
+mufredatders = require("./models/mufredatders.js")(sequelize, Sequelize);
 ogrenci = require("./models/ogrenci.js")(sequelize, Sequelize);
 ogrencidersleri = require("./models/ogrencidersleri.js")(sequelize, Sequelize);
 ogretimelemani = require("./models/ogretimelemani.js")(sequelize, Sequelize);
 ogretimelemaniders = require("./models/ogretimelemaniders.js")(sequelize, Sequelize);
-bolumogretimelemani = require("./models/bolumogretimelemani.js")(sequelize, Sequelize);
-//modeller arası ilişkiler
+somestr = require("./models/somestr.js")(sequelize, Sequelize);
 
+//modeller arası ilişkiler
+//admin bölüm ilişkisi
 bolum.hasMany(admin, {
     as: "admin",
     foreignKey: "bolumId"
@@ -25,44 +30,89 @@ admin.belongsTo(bolum, {
     as: "bolum",
     foreignKey: "bolumId"
 });
-//// ogrencidersleri çoğa çok ilişkili 
-ogrenci.belongsToMany(fsmvuders, {
-    through: "ogrencidersleri",
-    as: "fsmvuders",
-    foreignKey: "ogrenciId"
+//acilanders somestr ilişkisi
+somestr.hasMany(acilanders, {
+    as: "acilanders",
+    foreignKey: "somestrId"
 });
-fsmvuders.belongsToMany(ogrenci, {
-    through: "ogrencidersleri",
-    as: "ogrenci",
+acilanders.belongsTo(somestr, {
+    as: "somestr",
+    foreignKey: "somestrId"
+});
+//acilanders fsmvuDers ilişkisi
+fsmvuders.hasMany(acilanders, {
+    as: "acilanders",
     foreignKey: "fsmvudersId"
 });
+acilanders.belongsTo(fsmvuders, {
+    as: "fsmvuders",
+    foreignKey: "fsmvudersId"
+});
+//// mufredatders çoğa çok ilişkili 
+fsmvuders.belongsToMany(mufredat, {
+    through: "fsmvuders",
+    as: "mufredat",
+    foreignKey: "fsmvudersId"
+});
+mufredat.belongsToMany(fsmvuders, {
+    through: "mufredatders",
+    as: "fsmvuders",
+    foreignKey: "mufredatId"
+});
+mufredatders.belongsTo(fsmvuders, {
+    as: "fsmvuders",
+    foreignKey: "fsmvudersId"
+});
+mufredatders.belongsTo(mufredat, {
+    as: "mufredat",
+    foreignKey: "mufredatId"
+});
+//// ogrencidersleri çoğa çok ilişkili 
+// ogrenci.belongsToMany(fsmvuders, {
+//     through: "ogrencidersleri",
+//     as: "fsmvuders",
+//     foreignKey: "ogrenciId"
+// });
+// fsmvuders.belongsToMany(ogrenci, {
+//     through: "ogrencidersleri",
+//     as: "ogrenci",
+//     foreignKey: "fsmvudersId"
+// });
+// ogrencidersleri.belongsTo(ogrenci, {
+//     as: "ogrenci",
+//     foreignKey: "ogrenciId"
+// });
+// ogrencidersleri.belongsTo(fsmvuders, {
+//     as: "fsmvuders",
+//     foreignKey: "fsmvudersId"
+// });
 ogrencidersleri.belongsTo(ogrenci, {
     as: "ogrenci",
     foreignKey: "ogrenciId"
 });
-ogrencidersleri.belongsTo(fsmvuders, {
-    as: "fsmvuders",
-    foreignKey: "fsmvudersId"
-});
+ogrenci.hasMany(ogrencidersleri, {
+    as: "ogrencidersleri",
+    foreignKey: 'ogrenciId'
+  });
 
 //// ogretimelemaniders çoğa çok ilişkili 
-fsmvuders.belongsToMany(ogretimelemani, {
+acilanders.belongsToMany(ogretimelemani, {
     through: "ogretimelemaniders",
     as: "ogretimelemani",
-    foreignKey: "fsmvudersId"
+    foreignKey: "acilandersId"
 });
-ogretimelemani.belongsToMany(fsmvuders, {
+ogretimelemani.belongsToMany(acilanders, {
     through: "ogretimelemaniders",
-    as: "fsmvuders",
+    as: "acilanders",
     foreignKey: "ogretimelemaniId"
 });
 ogretimelemaniders.belongsTo(ogretimelemani, {
     as: "ogretimelemani",
     foreignKey: "ogretimelemaniId"
 });
-ogretimelemaniders.belongsTo(fsmvuders, {
-    as: "fsmvuders",
-    foreignKey: "fsmvudersId"
+ogretimelemaniders.belongsTo(acilanders, {
+    as: "acilanders",
+    foreignKey: "acilandersId"
 });
 
 //// bolumDersleri çoğa çok ilişkili 

@@ -1,6 +1,5 @@
-
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('bolumogretimelemani', {
+	return sequelize.define('mufredatders', {
 		id: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -8,25 +7,25 @@ module.exports = function(sequelize, DataTypes) {
 			autoIncrement: true,
 			field: 'id'
 		},
-		ogretimElemaniId: {
+		mufredatId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
-				model: 'ogretimelemani',
+				model: 'mufredat',
 				key: 'id'
 			},
-			field: 'OgretimElemani_id'
+			field: 'Mufredat_id'
 		},
-		bolumId: {
+		fsmvuDersId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
-				model: 'bolum',
+				model: 'fsmvuders',
 				key: 'id'
 			},
-			field: 'Bolum_id'
+			field: 'FsmvuDers_id'
 		}
 	}, {
-		tableName: 'bolumogretimelemani',timestamps: false
+		tableName: 'mufredatders',timestamps: false
 	});
 };

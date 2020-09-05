@@ -48,53 +48,6 @@ acilanders.belongsTo(fsmvuders, {
     as: "fsmvuders",
     foreignKey: "fsmvudersId"
 });
-//// mufredatders çoğa çok ilişkili 
-fsmvuders.belongsToMany(mufredat, {
-    through: "fsmvuders",
-    as: "mufredat",
-    foreignKey: "fsmvudersId"
-});
-mufredat.belongsToMany(fsmvuders, {
-    through: "mufredatders",
-    as: "fsmvuders",
-    foreignKey: "mufredatId"
-});
-mufredatders.belongsTo(fsmvuders, {
-    as: "fsmvuders",
-    foreignKey: "fsmvudersId"
-});
-mufredatders.belongsTo(mufredat, {
-    as: "mufredat",
-    foreignKey: "mufredatId"
-});
-//// ogrencidersleri çoğa çok ilişkili 
-// ogrenci.belongsToMany(fsmvuders, {
-//     through: "ogrencidersleri",
-//     as: "fsmvuders",
-//     foreignKey: "ogrenciId"
-// });
-// fsmvuders.belongsToMany(ogrenci, {
-//     through: "ogrencidersleri",
-//     as: "ogrenci",
-//     foreignKey: "fsmvudersId"
-// });
-// ogrencidersleri.belongsTo(ogrenci, {
-//     as: "ogrenci",
-//     foreignKey: "ogrenciId"
-// });
-// ogrencidersleri.belongsTo(fsmvuders, {
-//     as: "fsmvuders",
-//     foreignKey: "fsmvudersId"
-// });
-ogrencidersleri.belongsTo(ogrenci, {
-    as: "ogrenci",
-    foreignKey: "ogrenciId"
-});
-ogrenci.hasMany(ogrencidersleri, {
-    as: "ogrencidersleri",
-    foreignKey: 'ogrenciId'
-  });
-
 //// ogretimelemaniders çoğa çok ilişkili 
 acilanders.belongsToMany(ogretimelemani, {
     through: "ogretimelemaniders",
@@ -115,6 +68,79 @@ ogretimelemaniders.belongsTo(acilanders, {
     foreignKey: "acilandersId"
 });
 
+//// mufredatders çoğa çok ilişkili 
+fsmvuders.belongsToMany(mufredat, {
+    through: "mufredatders",
+    as: "mufredat",
+    foreignKey: "fsmvuDersId"
+});
+// mufredat.belongsToMany(fsmvuders, {
+//     through: "mufredatders",
+//     as: "fsmvuders",
+//     foreignKey: "mufredatId"
+// });
+// mufredatders.belongsTo(fsmvuders, {
+//     as: "fsmvuders",
+//     foreignKey: "fsmvudersId"
+// });
+// mufredatders.belongsTo(mufredat, {
+//     as: "mufredat",
+//     foreignKey: "mufredatId"
+// });
+fsmvuders.hasMany(mufredatders, {
+    as: "mufredatders",
+    foreignKey: "fsmvuDersId"
+  });
+  mufredatders.belongsTo(fsmvuders, {
+    as: "fsmvuders",
+    foreignKey: "fsmvuDersId"
+  });
+  //Classroom  has many event classroom
+  mufredat.hasMany(mufredatders, {
+    as: "mufredatders",
+    foreignKey: "mufredatId"
+  });
+  mufredatders.belongsTo(mufredat, {
+    as: "mufredat",
+    foreignKey: "mufredatId"
+  });
+//// ogrencidersleri çoğa çok ilişkili 
+// ogrenci.belongsToMany(fsmvuders, {
+//     through: "ogrencidersleri",
+//     as: "fsmvuders",
+//     foreignKey: "ogrenciId"
+// });
+// fsmvuders.belongsToMany(ogrenci, {
+//     through: "ogrencidersleri",
+//     as: "ogrenci",
+//     foreignKey: "fsmvudersId"
+// });
+// ogrencidersleri.belongsTo(ogrenci, {
+//     as: "ogrenci",
+//     foreignKey: "ogrenciId"
+// });
+// ogrencidersleri.belongsTo(fsmvuders, {
+//     as: "fsmvuders",
+//     foreignKey: "fsmvudersId"
+// });
+//sonradan değiştirdiğim kısım
+  ogrenci.hasMany(ogrencidersleri, {
+    as: "ogrencidersleri",
+    foreignKey: "ogrenciId"
+  });
+  ogrencidersleri.belongsTo(ogrenci, {
+    as: "ogrenci",
+    foreignKey: "ogrenciId"
+  });
+  //Classroom  has many event classroom
+  fsmvuders.hasMany(ogrencidersleri, {
+    as: "ogrencidersleri",
+    foreignKey: "fsmvudersId"
+  });
+  ogrencidersleri.belongsTo(fsmvuders, {
+    as: "fsmvuders",
+    foreignKey: "fsmvudersId"
+  });
 //// bolumDersleri çoğa çok ilişkili 
 fsmvuders.belongsToMany(bolum, {
     through: "bolumdersleri",

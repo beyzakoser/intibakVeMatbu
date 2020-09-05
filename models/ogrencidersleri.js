@@ -41,12 +41,11 @@ module.exports = function(sequelize, DataTypes) {
 				model: 'ogrenci',
 				key: 'id'
 			},
-			//unique: true,
+			unique: true,
 			field: 'Ogrenci_id'
 		},
 		fsmvuDersId: {
 			type: DataTypes.INTEGER,
-			//allowNull: false,
 			allowNull: true,
 			references: {
 				model: 'fsmvuders',

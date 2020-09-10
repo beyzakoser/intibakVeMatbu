@@ -191,6 +191,7 @@ app.get('/basvurulistesi', (req, res) => {
     }).then(
         c => {
             res.send(c)
+            res.end();
         }).catch(err => console.log("Error : ", err));
 
 });
@@ -203,14 +204,17 @@ app.post('/basvuru', (req, res) => {
             model: ogrencidersleri,
             as: "ogrencidersleri",
         }]
+    }).then(c => {
+        res.send("başvuru eklendi");
+        res.end();
     }).catch(err => console.log("Error : ", err));
-});
+})
 
-let yil, mufredatAdi;
+let yil, mufredatAdi='2019-2020';
+busvurulanDersleriListele = async () => {
 app.get('/basvuruIncele/:id', (req, res) => {
-    let query = [], query2 = [], query3 = [];
-    //gelen ogrenci id sine göre dersleri ve giriş yılına göre
-    //müfredatı gönderiyorum.
+
+    //gelen ogrenci idsine göre dersleri listeledim
     ogrencidersleri.findAll({
         where: { ogrenciId: req.params.id },
         attributes: [
@@ -224,56 +228,90 @@ app.get('/basvuruIncele/:id', (req, res) => {
 
     }).then(
         c => {
-            query.push(c)
+            res.send(c)
+            res.end();
         }).catch(err => console.log("Error : ", err));
+})}
+mufredatListele = async () => {
+    mufredatAdi='';
+    //mufredatAdi değişkenine atama yapılmadan çalışmaması için await içerisinde çağırdım.
+    await busvurulanDersleriListele()
+    await mufredatBul()
+    app.get('/mufredatDersleriListele', (req, res) => {
+        fsmvuders.findAll({
+            attributes: [
+                "id",
+                "dersKodu",
+                "grupBilgisi",
+                "dersAd",
+                'kredi',
+                "akts",
+            ],
+            include: [{
+                model: mufredat,
+                as: "mufredat",
+                where: {
+                    ad: mufredatAdi
+                },
+            }],
 
-    ogrenci.findByPk(req.params.id, {
-        attributes: [
-            "universiteAdi",
-            "girisYil"
-        ],
-    }).then(
-        c => {
-            yil = c.girisYil;
-            if (yil < 2015) {
-                mufredatAdi = '2014-2015';
-                
-            } else if (yil >= 2015 && yil < 2019) {
-                mufredatAdi = '2015-2016';
-                
-            } else if (yil >= 2019) {
-                mufredatAdi = '2019-2020';
-                
-            }
-            query2 = { universiteAdi: c.universiteAdi }
-            query.push(query2)
-        }).catch(err => console.log("Error : ", err));
+        }).then(
+            c => {
+                res.send(c)
+                res.end()
 
+            }).catch(err => console.log("Error : ", err));
+
+    })
+}
+mufredatBul = () => {
+    //return new Promise(resolve => {
+        app.get('/universiteAdi/:id', (req, res) => {
+            ogrenci.findByPk(req.params.id, {
+                attributes: [
+                    "universiteAdi",
+                    "girisYil"
+                ],
+            }).then(
+                c => {
+                    yil = c.girisYil;
+                  
+                    if (yil < 2015) {
+                        mufredatAdi = '2014-2015';
+                    } else if (yil >= 2015 && yil < 2019) {
+                        mufredatAdi = '2015-2016';
+                    } else if (yil >= 2019) {
+                        mufredatAdi = '2019-2020';
+                    }
+                    res.send(c)
+                    //resolve(true); //nerede sonlanmasını istiyorsak oraya yazıyoruz
+                    res.end()
+                }).catch(err => console.log("Error : ", err));
+        })
+    //})
+}
+
+mufredatListele();
+
+let gonder = []
+app.get('/ders', (req, res) => {
     fsmvuders.findAll({
-    attributes: [
-        "id",
-        "dersKodu",
-        "grupBilgisi",
-        "dersAd",
-        'kredi',
-        "akts",
-    ],
-        include: [{
-            model: mufredat,
-            as: "mufredat",
-            where: {
-                ad: mufredatAdi
-            },
-    }],
-
-}).then(
-    c => {
-        query3 =  c 
-        query.push(query3)
-        console.log(query);
-        res.send(query)
-        //console.log(query[2].dersler);
-    }).catch(err => console.log("Error : ", err));
+        //dersAdına göre alfabetik sıra ile gönderdim.
+        order: [
+            ['dersAd', 'ASC'],
+        ],
+        //hangi özelliklerin gitmesini istiyorsam;
+        attributes: [
+            "id",
+            //"dersKodu",
+            "dersAd",
+        ],
+        raw: true
+    })
+        .then(
+            c => {
+                res.send(c)
+            }).catch(err => console.log("Error : ", err));
 
 })
 

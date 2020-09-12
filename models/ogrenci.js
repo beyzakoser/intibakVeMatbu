@@ -58,6 +58,17 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(45),
 			allowNull: true,
 			field: 'basvuru_tur'
+		},
+		basvurduguBolum: {
+			type: DataTypes.STRING(45),
+			allowNull: true,
+			field: 'basvurdugu_bolum'
+		},
+		intibakDurumu: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			defaultValue: '0',
+			field: 'intibak_durumu'
 		}
 	}, {
 		tableName: 'ogrenci',timestamps: false

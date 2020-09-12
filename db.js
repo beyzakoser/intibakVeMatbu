@@ -1,4 +1,5 @@
 const { Sequelize, Model } = require("sequelize");
+
 const sequelize = new Sequelize('db', 'root', '12345678', {
     host: '127.0.0.1',
     dialect: 'mysql',
@@ -161,24 +162,23 @@ bolumdersleri.belongsTo(fsmvuders, {
     foreignKey: "fsmvudersId"
 });
 //bolumogretimelemani çoğa çok
-bolum.belongsToMany(ogretimelemani, {
-    through: "bolumogretimelemani",
-    as: "ogretimelemani",
-    foreignKey: "bolumId"
-});
-ogretimelemani.belongsToMany(bolum, {
-    through: "bolumogretimelemani",
-    as: "bolum",
-    foreignKey: "ogretimelemaniId"
-});
+
 bolumogretimelemani.belongsTo(ogretimelemani, {
     as: "ogretimelemani",
-    foreignKey: "ogretimelemaniId"
+    foreignKey: "ogretimElemaniId"
 });
 bolumogretimelemani.belongsTo(bolum, {
     as: "bolum",
     foreignKey: "bolumId"
 });
+ogretimelemani.hasMany(bolumogretimelemani, {
+    as: "bolumogretimelemani",
+    foreignKey: "ogretimElemaniId"
+  });
+  bolum.hasMany(bolumogretimelemani, {
+    as: "bolumogretimelemani",
+    foreignKey: "bolumId"
+  });
 
 module.exports=sequelize
 global.sequelize=sequelize

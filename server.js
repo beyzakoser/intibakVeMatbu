@@ -1,6 +1,7 @@
-//const { Sequelize, Model } = require("sequelize");
+const { Sequelize, Model, Op } = require("sequelize");
 const express = require('express');
 const cors = require('cors');
+const _ = require('underscore');
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -248,6 +249,7 @@ app.post('/basvuru', (req, res) => {
     }).catch(err => console.log("Error : ", err));
 })
 
+
 let yil, mufredatAdi = '2019-2020';
 busvurulanDersleriListele = async () => {
     app.get('/basvuruIncele/:id', (req, res) => {
@@ -256,6 +258,7 @@ busvurulanDersleriListele = async () => {
         ogrencidersleri.findAll({
             where: { ogrenciId: req.params.id },
             attributes: [
+                "id",
                 "dersKodu",
                 "dersAdi",
                 "kredi",
@@ -309,7 +312,14 @@ mufredatBul = () => {
         ogrenci.findByPk(req.params.id, {
             attributes: [
                 "universiteAdi",
-                "girisYil"
+                "girisYil",
+                "ogrenciAd",
+                "ogrenciSoyad",
+                "ogrenciBolum",
+                "basvuruTur",
+                "basvurduguBolum",
+                "intibakDurumu",
+                "basvuruTur"
             ],
         }).then(
             c => {
@@ -353,6 +363,33 @@ app.get('/ders', (req, res) => {
             }).catch(err => console.log("Error : ", err));
 
 })
+app.put('/intibakTamamla', (req, res) => {
+
+    ogrenci.update(req.body.intibakDurumu, {
+        where: {
+            id: req.body.id
+        },
+
+    })
+        .then(c => {
+            res.send("intibak başarıyla tamamlandı")
+            req.body.ogrencidersleri.forEach(eleman => {
+                ogrencidersleri.update(eleman, {
+                    where: {
+                        id: eleman.id
+                    },
+
+                }).then(
+                    res.end()
+                ).catch(err => console.log("Error : ", err))
+            })
+
+        }
+        ).catch(err => { console.log("Error : ", err), res.send('bir sıkıntı oldu') });
+
+})
+
+
 
 app.listen(3004, () => {
     console.log("server is listening");

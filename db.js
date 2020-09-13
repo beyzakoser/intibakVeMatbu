@@ -1,4 +1,4 @@
-const { Sequelize, Model } = require("sequelize");
+const { Sequelize, Model} = require("sequelize");
 
 const sequelize = new Sequelize('db', 'root', '12345678', {
     host: '127.0.0.1',
@@ -43,11 +43,11 @@ acilanders.belongsTo(somestr, {
 //acilanders fsmvuDers ilişkisi
 fsmvuders.hasMany(acilanders, {
     as: "acilanders",
-    foreignKey: "fsmvudersId"
+    foreignKey: "fsmvuDersId"
 });
 acilanders.belongsTo(fsmvuders, {
     as: "fsmvuders",
-    foreignKey: "fsmvudersId"
+    foreignKey: "fsmvuDersId"
 });
 //// ogretimelemaniders çoğa çok ilişkili 
 acilanders.belongsToMany(ogretimelemani, {
@@ -136,17 +136,17 @@ fsmvuders.hasMany(mufredatders, {
   //Classroom  has many event classroom
   fsmvuders.hasMany(ogrencidersleri, {
     as: "ogrencidersleri",
-    foreignKey: "fsmvudersId"
+    foreignKey: "fsmvuDersId"
   });
   ogrencidersleri.belongsTo(fsmvuders, {
     as: "fsmvuders",
-    foreignKey: "fsmvudersId"
+    foreignKey: "fsmvuDersId"
   });
 //// bolumDersleri çoğa çok ilişkili 
 fsmvuders.belongsToMany(bolum, {
     through: "bolumdersleri",
     as: "bolum",
-    foreignKey: "fsmvudersId"
+    foreignKey: "fsmvuDersId"
 });
 bolum.belongsToMany(fsmvuders, {
     through: "bolumdersleri",
@@ -159,7 +159,7 @@ bolumdersleri.belongsTo(bolum, {
 });
 bolumdersleri.belongsTo(fsmvuders, {
     as: "fsmvuders",
-    foreignKey: "fsmvudersId"
+    foreignKey: "fsmvuDersId"
 });
 //bolumogretimelemani çoğa çok
 

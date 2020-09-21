@@ -32,6 +32,12 @@ admin.belongsTo(bolum, {
     foreignKey: "bolumId"
 });
 //acilanders somestr ilişkisi
+// fsmvuders.belongsToMany(somestr, {
+//   through: "acilanders",
+//   as: "somestr",
+//   foreignKey: "fsmvuDersId"
+// });
+//////////////////////////////////////////////
 somestr.hasMany(acilanders, {
     as: "acilanders",
     foreignKey: "somestrId"
@@ -53,20 +59,24 @@ acilanders.belongsTo(fsmvuders, {
 acilanders.belongsToMany(ogretimelemani, {
     through: "ogretimelemaniders",
     as: "ogretimelemani",
-    foreignKey: "acilandersId"
+    foreignKey: "acilanDersId"
 });
 ogretimelemani.belongsToMany(acilanders, {
     through: "ogretimelemaniders",
     as: "acilanders",
-    foreignKey: "ogretimelemaniId"
+    foreignKey: "ogretimElemaniId"
 });
 ogretimelemaniders.belongsTo(ogretimelemani, {
     as: "ogretimelemani",
-    foreignKey: "ogretimelemaniId"
+    foreignKey: "ogretimElemaniId"
 });
 ogretimelemaniders.belongsTo(acilanders, {
     as: "acilanders",
-    foreignKey: "acilandersId"
+    foreignKey: "acilanDersId"
+});
+acilanders.hasMany(ogretimelemaniders, {
+  as: "ogretimelemaniders",
+  foreignKey: "acilanDersId"
 });
 
 //// mufredatders çoğa çok ilişkili 

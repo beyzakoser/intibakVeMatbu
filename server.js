@@ -49,12 +49,69 @@ app.get('/dersler', (req, res) => {
             'teoriOnline',
             'labOnline',
         ],
-        raw: true
+        include: [{
+            model: mufredat,
+            as: "mufredat",
+            where: {
+                ad: '2019-2020'
+            },
+        }],
     })
         .then(
             c => {
                 res.send(c)
             }).catch(err => console.log("Error : ", err));
+
+});
+app.get('/donemDersleri/:donem', (req, res) => {
+    console.log(req.params.donem);
+    fsmvuders.findAll({
+        //dersAdına göre alfabetik sıra ile gönderdim.
+        order: [
+            ['dersAd', 'ASC'],
+        ],
+
+        //hangi özelliklerin gitmesini istiyorsam;
+        attributes: [
+            "id",
+            "dersKodu",
+            "dersAd",
+            'kredi',
+            "akts",
+            'teoriSaat',
+            'labSaat',
+            "kontenjan",
+            'teoriOnline',
+            'labOnline',
+        ],
+
+        include: [{
+            model: mufredat,
+            as: "mufredat",
+            where: {
+                ad: '2019-2020'
+            },
+        }],
+
+        include: [{
+            model: acilanders,
+            as: "acilanders",
+            required: true,
+            include: [{
+                model: somestr,
+                as: "somestr",
+                where: {
+                    donem: req.params.donem
+                },
+            }],
+        }],
+    })
+        .then(
+            c => {
+                //console.log(c);
+                res.send(c)
+            })
+        .catch(err => console.log("Error : ", err));
 
 });
 
@@ -140,13 +197,13 @@ app.get('/ogretimElemanlari', (req, res) => {
             c => {
                 //console.log(c);
                 res.send(c)
+                res.end()
             }).catch(err => console.log("Error : ", err));
 
 
 });
 app.post('/akademisyenDuzenle', (req, res) => {
     //client tarafından değişen verilerin hepsi tek bir objede geliyor.
-
     const { inserts } = req.body[0];
     const { updates } = req.body[1];
     const { deletes } = req.body[2];
@@ -224,7 +281,8 @@ app.get('/basvurulistesi', (req, res) => {
             "universiteAdi",
             "talepTarih",
             "girisYil",
-            "basvuruTur"
+            "basvuruTur",
+            "intibakDurumu"
         ],
         raw: true
     }).then(
@@ -263,14 +321,55 @@ busvurulanDersleriListele = async () => {
                 "dersAdi",
                 "kredi",
                 "akts",
-                "basariNotu"
+                "basariNotu",
+                "fsmvuBasariNotu",
+                "fsmvuDersId"
             ],
-            raw: true,
+            include: [{
+                attributes: [
+                    "id",
+                    "dersKodu",
+                    "dersAd",
+                    "kredi",
+                    "akts",
+                    "grupBilgisi",
+                ],
+                model: fsmvuders,
+                as: "fsmvuders",
+            }],
+            //raw: true,
 
         }).then(
             c => {
-                res.send(c)
-                res.end();
+                let newObject = []
+                if (c[0].dataValues.fsmvuders === null) {
+                    res.send(c)
+                } else {
+                    //console.log(c[0].dataValues.fsmvuders === null);
+                    c.forEach(eleman => {
+
+                        let zekiye = {
+                            id: eleman.toJSON().id, dersKodu: eleman.toJSON().dersKodu,
+                            dersAdi: eleman.toJSON().dersAdi, kredi: eleman.toJSON().kredi, akts: eleman.toJSON().akts,
+                            basariNotu: eleman.toJSON().basariNotu, fsmvuBasariNotu: eleman.toJSON().fsmvuBasariNotu,
+                            fsmvuDersId: eleman.toJSON().fsmvuDersId, fsmvuDersKodu: eleman.toJSON().fsmvuders.dersKodu,
+                            fsmvuDersGrubu: eleman.toJSON().fsmvuders.grupBilgisi, fsmvuDersinAdi: eleman.toJSON().fsmvuders.dersAd,
+                            fsmvuKredi: eleman.toJSON().fsmvuders.kredi, fsmvuAkts: eleman.toJSON().fsmvuders.akts
+                        }
+
+                        newObject.push(zekiye)
+
+                    })
+                    res.send(newObject)
+                }
+                // }
+                // else{
+                //     res.send(c)
+
+                // }
+                //console.log(newObject);
+
+                //res.end();
             }).catch(err => console.log("Error : ", err));
     })
 }
@@ -307,6 +406,7 @@ mufredatListele = async () => {
     })
 }
 mufredatBul = () => {
+    //Vaktin olursa bu kodu en baştan düzenlemeyi unutma!!
     //return new Promise(resolve => {
     app.get('/universiteAdi/:id', (req, res) => {
         ogrenci.findByPk(req.params.id, {
@@ -342,37 +442,55 @@ mufredatBul = () => {
 
 mufredatListele();
 
-let gonder = []
-app.get('/ders', (req, res) => {
-    fsmvuders.findAll({
-        //dersAdına göre alfabetik sıra ile gönderdim.
-        order: [
-            ['dersAd', 'ASC'],
-        ],
-        //hangi özelliklerin gitmesini istiyorsam;
-        attributes: [
-            "id",
-            //"dersKodu",
-            "dersAd",
-        ],
-        raw: true
-    })
-        .then(
-            c => {
-                res.send(c)
-            }).catch(err => console.log("Error : ", err));
 
+app.get('/ogretimElemaniDersleri/:id/:donem', (req, res) => {
+fsmvuders.findAll({
+    order: [
+        ['dersAd', 'ASC'],
+    ],
+    attributes: [
+        "id",
+        "dersAd",
+    ],
+    include: [{
+        model: acilanders,
+        as: "acilanders",
+        required: true,
+        include: [{
+            model: ogretimelemaniders,
+            as: "ogretimelemaniders",
+            where: {
+                ogretimElemaniId: req.params.id
+            },
+        }, {
+            model: somestr,
+            as: "somestr",
+            where: {
+                donem: req.params.donem
+            },
+        }],
+    }],
+    
 })
-app.put('/intibakTamamla', (req, res) => {
+    .then(
+        c => {
+            res.send(c)
+            res.end()
+            //console.log(c);
+        }).catch(err => console.log("Error : ", err));
 
-    ogrenci.update(req.body.intibakDurumu, {
+ })
+
+app.put('/intibakTamamla', (req, res) => {
+    //console.log(req.body);
+    ogrenci.update(req.body, {
         where: {
             id: req.body.id
         },
 
     })
         .then(c => {
-            res.send("intibak başarıyla tamamlandı")
+            //res.send("intibak başarıyla tamamlandı")
             req.body.ogrencidersleri.forEach(eleman => {
                 ogrencidersleri.update(eleman, {
                     where: {
